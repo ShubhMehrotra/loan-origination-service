@@ -1,4 +1,6 @@
 package com.shubh.loan.origination.model.constants;
 
-public class EmploymentType {
+public enum EmploymentType {
+    SALARIED,
+    SELF_EMPLOYED
 }
