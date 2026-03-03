@@ -1,6 +1,6 @@
-package com.shubh.loan.origination.model;
+package com.shubh.loan.origination.model.dto;
 
-
+import com.shubh.loan.origination.model.*;
 import com.shubh.loan.origination.model.constants.LoanPurpose;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
