@@ -6,7 +6,7 @@ import org.springframework.stereotype.*;
 
 @Component
 public class ApplicationMapper {
-    public static Application toEntity(LoanApplicationRequest req) {
+    public Application toEntity(LoanApplicationRequest req) {
 
         ApplicantDTO a = req.applicant();
         LoanDTO l = req.loan();

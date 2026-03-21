@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/v1/loans")
-@Slf4j
 public class LoanController {
 
     private final LoanService loanService;
