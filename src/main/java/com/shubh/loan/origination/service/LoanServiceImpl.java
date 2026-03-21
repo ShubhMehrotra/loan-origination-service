@@ -46,7 +46,7 @@ public class LoanServiceImpl implements LoanService {
 
         String risk = loanServiceHelper.calculateRisk(request);
         log.info("Calculated risk band: {}", risk);
-        String status = loanServiceHelper.approve(request, emi);
+        String status = String.valueOf(loanServiceHelper.approve(request, emi));
 
         applicationEntity.setInterestRate(interest);
         applicationEntity.setEmi(emi);

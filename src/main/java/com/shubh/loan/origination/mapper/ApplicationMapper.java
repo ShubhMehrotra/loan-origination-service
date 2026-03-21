@@ -2,7 +2,9 @@ package com.shubh.loan.origination.mapper;
 
 import com.shubh.loan.origination.model.*;
 import com.shubh.loan.origination.model.dto.*;
+import org.springframework.stereotype.*;
 
+@Component
 public class ApplicationMapper {
     public static Application toEntity(LoanApplicationRequest req) {
 

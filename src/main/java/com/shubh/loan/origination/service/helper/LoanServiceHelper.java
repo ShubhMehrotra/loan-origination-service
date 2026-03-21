@@ -3,7 +3,9 @@ package com.shubh.loan.origination.service.helper;
 import com.shubh.loan.origination.model.constants.*;
 import com.shubh.loan.origination.model.dto.*;
 import java.math.*;
+import org.springframework.stereotype.*;
 
+@Component
 public class LoanServiceHelper {
 
     public BigDecimal calculateInterest(LoanApplicationRequest req) {
@@ -40,7 +42,7 @@ public class LoanServiceHelper {
         return "HIGH";
     }
 
-    public String approve(LoanApplicationRequest req, BigDecimal emi) {
+    public ApplicationStatus approve(LoanApplicationRequest req, BigDecimal emi) {
 
         int age = req.applicant().age();
         int tenureYears = req.loan().tenureMonths() / 12;
@@ -50,33 +52,33 @@ public class LoanServiceHelper {
 
         // 1. Age + tenure rule
         if (age + tenureYears > 65) {
-            return "REJECTED";
+            return ApplicationStatus.REJECTED;
         }
 
         // 2. EMI affordability
         BigDecimal maxAllowed = income.multiply(BigDecimal.valueOf(0.5));
         if (emi.compareTo(maxAllowed) > 0) {
-            return "REJECTED";
+            return ApplicationStatus.REJECTED;
         }
 
         // 3. Credit score
         if (req.applicant().creditScore() < 600) {
-            return "REJECTED";
+            return ApplicationStatus.REJECTED;
         }
 
         if (income.compareTo(BigDecimal.valueOf(20000)) < 0) {
-            return "REJECTED";
+            return ApplicationStatus.REJECTED;
         }
 
         if (loanAmount.compareTo(income.multiply(BigDecimal.valueOf(20))) > 0) {
-            return "REJECTED";
+            return ApplicationStatus.REJECTED;
         }
 
         if (req.applicant().employmentType() == EmploymentType.UNEMPLOYED) {
-            return "REJECTED";
+            return ApplicationStatus.REJECTED;
         }
 
-        return "APPROVED";
+        return ApplicationStatus.APPROVED;
     }
 
 
