@@ -7,7 +7,6 @@ import java.math.*;
 
 public record ApplicantDTO(
 
-
         int age,
         @ValidCreditScore
         int creditScore,

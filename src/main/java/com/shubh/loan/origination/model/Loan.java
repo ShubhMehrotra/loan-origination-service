@@ -2,15 +2,17 @@ package com.shubh.loan.origination.model;
 
 
 import com.shubh.loan.origination.model.constants.LoanPurpose;
-import jakarta.persistence.Column;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import java.math.BigDecimal;
 import java.util.UUID;
+import lombok.*;
 
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
+@Data
+@Entity
+@Table(name = "loans")
 public class Loan {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)

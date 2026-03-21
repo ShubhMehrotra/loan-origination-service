@@ -11,6 +11,8 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Offer {
+    @Id
+    @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
     private BigDecimal interestRate;
     private int tenureMonths;

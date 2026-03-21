@@ -11,8 +11,11 @@ import lombok.*;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
+@Data
 public class Application {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.UUID)
     private UUID applicationId;
     @ManyToOne
     @JoinColumn(name = "applicant_id")
