@@ -6,7 +6,6 @@ import java.util.*;
 public record LoanResponse(
         UUID applicationId,
         String status,
-        BigDecimal emi,
-        BigDecimal interestRate,
-        String riskBand
+        String riskBand,
+        Offer offer
 ) {}

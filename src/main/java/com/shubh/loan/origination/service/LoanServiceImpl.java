@@ -17,21 +17,18 @@ public class LoanServiceImpl implements LoanService {
 
     private final ApplicationRepository applicationRepository;
     private final LoanServiceHelper loanServiceHelper;
-    private final ApplicationMapper mapper;
 
     public LoanServiceImpl(ApplicationRepository applicationRepository,
-                           LoanServiceHelper loanServiceHelper,
-                           ApplicationMapper mapper) {
+                           LoanServiceHelper loanServiceHelper) {
         this.applicationRepository = applicationRepository;
         this.loanServiceHelper = loanServiceHelper;
-        this.mapper = mapper;
     }
 
     @Override
     public LoanResponse process(LoanApplicationRequest request) {
 
         log.info("Processing loan application for applicant");
-        var applicationEntity = mapper.toEntity(request);
+        var applicationEntity = ApplicationMapper.toEntity(request);
         log.info("Calculating interest rate based on credit score and loan purpose");
         BigDecimal interest = loanServiceHelper.calculateInterest(request);
         log.info("Calculated interest rate: {}", interest);
@@ -46,23 +43,28 @@ public class LoanServiceImpl implements LoanService {
 
         String risk = loanServiceHelper.calculateRisk(request);
         log.info("Calculated risk band: {}", risk);
-        String status = String.valueOf(loanServiceHelper.approve(request, emi));
+        ApplicationStatus status = loanServiceHelper.approve(request, emi);
 
         applicationEntity.setInterestRate(interest);
         applicationEntity.setEmi(emi);
         applicationEntity.setRiskBand(RiskBand.valueOf(risk));
-        applicationEntity.setStatus(status);
+        applicationEntity.setStatus(String.valueOf(status));
 
         var saved = applicationRepository.save(applicationEntity);
 
         log.info("Completed processing. Status: {}", status);
 
+        Offer offer = null;
+        if (status == ApplicationStatus.APPROVED) {
+            BigDecimal totalPayable = emi.multiply(BigDecimal.valueOf(request.loan().tenureMonths()));
+            offer = new Offer(interest, request.loan().tenureMonths(), emi, totalPayable);
+        }
+
         return new LoanResponse(
                 saved.getApplicationId(),
-                status,
-                emi,
-                interest,
-                risk
+                String.valueOf(status),
+                risk,
+                offer
         );
     }
 }
