@@ -3,11 +3,12 @@ package com.shubh.loan.origination.validation;
 import jakarta.validation.*;
 import java.lang.annotation.*;
 
-@Documented
-@Target({ElementType.FIELD, ElementType.PARAMETER})
+@Target({ElementType.FIELD})
 @Retention(RetentionPolicy.RUNTIME)
-public @interface ValidAge {
-    String message() default "Age must be between 21 and 60";
+@Constraint(validatedBy = TenureValidator.class)
+@Documented
+public @interface ValidTenure {
+    String message() default "Invalid tenure. Tenure must be between 6 and 360 months.";
     Class<?>[] groups() default {};
     Class<? extends Payload>[] payload() default {};
 }

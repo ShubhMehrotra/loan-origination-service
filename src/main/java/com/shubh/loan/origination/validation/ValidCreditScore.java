@@ -10,6 +10,7 @@ import java.lang.annotation.Target;
 
 @Documented
 @Target({ElementType.FIELD, ElementType.PARAMETER})
+@Constraint(validatedBy = CreditScoreValidator.class)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface ValidCreditScore {
     String message() default "Credit score must be between 300 and 900";
